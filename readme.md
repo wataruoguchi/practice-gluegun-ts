@@ -1,6 +1,12 @@
 # wizard CLI
 
-A CLI for wizard.
+A CLI for wizard. You can search material page provided by Recollect.
+
+For example, search how to dump weeds
+```shell
+$ yarn link
+$ wizard weeds
+```
 
 ## Customizing your CLI
 
