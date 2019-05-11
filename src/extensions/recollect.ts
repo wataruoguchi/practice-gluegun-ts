@@ -25,7 +25,7 @@ module.exports = (toolbox: GluegunToolbox) => {
 
   function parseMaterialListRes(response: any) :MaterialItem[] {
     // Parse the response - also it lets you to modify the data
-    if (response && response.data) {
+    if (response && response.status && response.status === 200 && response.data) {
       const responseData :MaterialListItem[] = response.data
       // Pro tip: you can modify the response here
       const result :MaterialItem[] = responseData.map((row) => {
@@ -41,10 +41,22 @@ module.exports = (toolbox: GluegunToolbox) => {
 
   async function getMaterialList(name :string): Promise<MaterialItem[] | null> {
     // Well, you know it's ugly
-    const res: any = await api.get('/areas/Vancouver/services/waste/pages?type=material&include_links=true&locale=en&accept_list=true&suggest=' + name)
+    const res: any = await api.get(`/areas/Vancouver/services/waste/pages?type=material&include_links=true&locale=en&accept_list=true&suggest=${name}`)
     return parseMaterialListRes(res)
   }
 
-  toolbox.recollect = { getMaterialList }
+  function parseMaterialPageRes(response: any) :[] {
+    if (response && response.status && response.status === 200 && response.data) {
+      const result = response.data.sections
+      return result
+    }
+  }
+
+  async function getMaterialPage(id :string): Promise<[] | null> {
+    const res: any = await api.get(`/areas/Vancouver/services/waste/pages/en/${id}.json`)
+    return parseMaterialPageRes(res)
+  }
+
+  toolbox.recollect = { getMaterialList, getMaterialPage }
 }
 

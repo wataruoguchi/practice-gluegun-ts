@@ -21,11 +21,18 @@ module.exports = {
       return
     }
 
+    // Do I need to define the type? MaterialListItem[]
     const materialList = await recollect.getMaterialList(name)
     if (!materialList) {
       print.error('Oops no result')
       return
     }
-    print.debug(materialList)
+
+    const topSuggestedMaterial = await recollect.getMaterialPage(materialList[0].id)
+    if (!topSuggestedMaterial) {
+      print.error('You could not fetch the page')
+      return
+    }
+    print.debug(topSuggestedMaterial)
   },
 }
