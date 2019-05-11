@@ -23,7 +23,7 @@ module.exports = (toolbox: GluegunToolbox) => {
     baseURL: 'https://wataru.recollect.net/api',
   })
 
-  function parseResponse(response: any) :MaterialItem[] {
+  function parseMaterialListRes(response: any) :MaterialItem[] {
     // Parse the response - also it lets you to modify the data
     if (response && response.data) {
       const responseData :MaterialListItem[] = response.data
@@ -42,7 +42,7 @@ module.exports = (toolbox: GluegunToolbox) => {
   async function getMaterialList(name :string): Promise<MaterialItem[] | null> {
     // Well, you know it's ugly
     const res: any = await api.get('/areas/Vancouver/services/waste/pages?type=material&include_links=true&locale=en&accept_list=true&suggest=' + name)
-    return parseResponse(res)
+    return parseMaterialListRes(res)
   }
 
   toolbox.recollect = { getMaterialList }
