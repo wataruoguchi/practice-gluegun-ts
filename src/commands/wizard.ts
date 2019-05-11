@@ -21,11 +21,11 @@ module.exports = {
       return
     }
 
-    const material = await recollect.getMaterialList(name)
-    if (!material) {
+    const materialList = await recollect.getMaterialList(name)
+    if (!materialList) {
       print.error('Oops no result')
       return
     }
-    print.debug(material)
+    print.debug(materialList)
   },
 }
